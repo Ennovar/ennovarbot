@@ -1,3 +1,19 @@
+# Description:
+#   hubot displays the local weather
+#
+# Dependencies:
+#   none
+#
+# Configuration:
+#   none
+#
+# Commands:
+#   hubot weather - displays the local weather
+#   <trigger> - <what the hear trigger does>
+#
+# Author:
+#   osamarao
+
 https = require 'https'
 
 forecastIOUrlWithLocation = 'https://api.forecast.io/forecast/5b45bab9d3b084277da4789f43ffcaa3/37.6889,-97.3361/?exclude=daily,minutely,hourly,flags'
