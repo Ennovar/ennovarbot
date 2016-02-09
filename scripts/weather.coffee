@@ -9,7 +9,7 @@ forecastIOUrlWithLocation = 'https://api.forecast.io/forecast/5b45bab9d3b084277d
 
 module.exports = (robot) ->
   # weather me to get the weather
-  robot.hear /weather me/i, (res) ->
+  robot.respond /weather/i, (res) ->
       forecast = "\nSummary: {summary}\nCurrent temperature: {temperature} F, but feels like: {apparentTemperature} F\nWind speed: {windspeed} mph\n"
 
 
