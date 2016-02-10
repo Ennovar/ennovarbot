@@ -9,8 +9,8 @@
 #   None
 #
 # Commands:
-#   hubot thanks | ty bot | tyvm bot | thnq bot  - Hubot accepts your thanks
-#	thanks followed by any word - Hubot accepts your thanks
+#   thank you hubot  - Hubot accepts your thanks
+#
 # Author:
 #   Sindhusha
 #
