@@ -32,5 +32,5 @@ response = [
  
 	
 module.exports = (robot) ->
-	robot.hear /Thanks bot|thank you bot|ty bot|ty|tyvm bot|thnq bot|thnq|(thank).*/i, (msg) ->
+	robot.hear /Thanks bot|thank you bot|ty bot|tyvm bot|thnq bot/i, (msg) ->
     msg.send msg.random response
