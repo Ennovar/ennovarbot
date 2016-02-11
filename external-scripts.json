@@ -4,5 +4,6 @@
   "hubot-heroku-keepalive",
   "hubot-google-images",
   "hubot-redis-brain",
-  "hubot-rules"
+  "hubot-rules",
+  "hubot-plusplus"
 ]
