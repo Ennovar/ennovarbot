@@ -20,4 +20,7 @@ module.exports = (robot) ->
 
   robot.respond /explain points to (.*)/i, (res) ->
     name = res.match[1]
-    res.send "#{name}: https://cldup.com/gf-BpR6uhu.jpg "
+    res.send "#{name}: https://cldup.com/gf-BpR6uhu.jpg"
+	
+  robot.respond /explain points$/i, (res) ->
+    res.send "https://cldup.com/gf-BpR6uhu.jpg"
