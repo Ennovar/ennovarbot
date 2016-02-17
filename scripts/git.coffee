@@ -29,8 +29,9 @@ module.exports = (robot) ->
           LATEST_ISSUE = "New Issue Comment  \n" + issues.payload.issue.url + '\n' + "new comment added:  " + issues.payload.comment.body + '\n' + "commented by:  " + issues.payload.issue.user.login
 
    robot.on "github-repo-event", (issues) ->
-        console.log("issues for push", arguments);
-        if issues.eventType == 'push'
+      console.log("issues for push", arguments);
+      if issues.eventType == 'push'
+        if issues.eventType.ref == 'refs/heads/dev-branch'
          robot.send { room: issues.query.room, event: issues.eventType }, "New Event Push\n" + 'Event Pushed By: ' + issues.payload.pusher.name + '\n' + 'In Repo name: ' + issues.payload.repository.name
          LATEST_ISSUE = "New Event Push\n" + 'Event Pushed By: ' + issues.payload.pusher.name + '\n' + 'In Repo name: ' + issues.payload.repository.name
 
