@@ -23,20 +23,17 @@ module.exports = (robot) ->
     msg.send LATEST_ISSUE
 
   robot.on "github-repo-event", (issues) ->
-         console.log("issues for issue_comment", arguments);
          if issues.eventType == 'issue_comment'
           robot.send { room: issues.query.room, event: issues.eventType }, "New Issue Comment \n" + issues.payload.issue.url + '\n' + "new comment added:  " + issues.payload.comment.body + '\n' + "commented by:  " + issues.payload.issue.user.login
           LATEST_ISSUE = "New Issue Comment  \n" + issues.payload.issue.url + '\n' + "new comment added:  " + issues.payload.comment.body + '\n' + "commented by:  " + issues.payload.issue.user.login
 
    robot.on "github-repo-event", (issues) ->
-      console.log("issues for push", arguments);
       if issues.eventType == 'push'
         if issues.payload.ref == 'refs/heads/dev-branch'
          robot.send { room: issues.query.room, event: issues.eventType }, "New Event Push\n" + 'Event Pushed By: ' + issues.payload.pusher.name + '\n' + 'In Repo name: ' + issues.payload.repository.name
          LATEST_ISSUE = "New Event Push\n" + 'Event Pushed By: ' + issues.payload.pusher.name + '\n' + 'In Repo name: ' + issues.payload.repository.name
 
     robot.on "github-repo-event", (issues) ->
-        console.log("issues for issues event", arguments);
         if issues.eventType == 'issues'
          if issues.payload.action == 'opened'
           robot.send { room: issues.query.room, event: issues.eventType },  "New Issue Opened\n " +  'The link:  ' + issues.payload.issue.url + '\n' + "Title:  " + issues.payload.issue.title + '\n' + "Issued By: " + issues.payload.issue.user.login + '\n' + "Created At: " + issues.payload.issue.created_at
@@ -52,7 +49,6 @@ module.exports = (robot) ->
           LATEST_ISSUE =  "New Issue ReOpened\n " + 'The link:  ' + issues.payload.issue.url + '\n' + 'Issue :  ' + issues.payload.issue.state + ' ' + '\n' + "Title:  " + issues.payload.issue.title + '\n' + 'Updated At: ' + issues.payload.issue.updated_at + '\n' + "Issued By: " + issues.payload.issue.user.login
 
     robot.on "github-repo-event", (issues) ->
-        console.log("issues for Pull", arguments);
         if issues.eventType == 'pull_request'
          if issues.payload.action == 'opened'
           robot.send { room: issues.query.room, event: issues.eventType },  "New Pull Opened\n " +'The link:  ' + issues.payload.pull_request.url + "\n" + "Title:  " + issues.payload.pull_request.title + '\n' +  "Issued By: " + issues.payload.pull_request.user.login + "\n" + "For Commit URL: " + issues.payload.pull_request.commits_url
@@ -72,7 +68,6 @@ module.exports = (robot) ->
 
 
     robot.on "github-repo-event", (issues) ->
-        console.log("issues for Pull request review comment", arguments);
         if issues.eventType == 'pull_request_review_comment'
          robot.send { room: issues.query.room, event: issues.eventType }, "New Pull Request Comment Event\n " + 'The link:  ' + issues.payload.comment.url + "\n" + "Issued By: " + issues.payload.comment.user.login + '\n' + "new comment added:  " + issues.payload.comment.body + "\n"+ "Created_at: " + issues.payload.comment.created_at
          LATEST_ISSUE =  "New Pull Request Comment Event\n " +'The link:  ' + issues.payload.comment.url + "\n" + "Issued By: " + issues.payload.comment.user.login +'\n' + "new comment added:  " + issues.payload.comment.body + '\n'+ "Created_at: " + issues.payload.comment.created_at
