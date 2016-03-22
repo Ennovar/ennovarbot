@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot meeting help
+#   hubot meeting help - How to reserve the Ennovar meeting room
 
 module.exports = (robot) ->
   Display = undefined
