@@ -6,6 +6,5 @@
   "hubot-redis-brain",
   "hubot-rules",
   "hubot-plusplus",
-  "hubot-github-webhook-listener",
-  "hubot-spotify-playlist"
+  "hubot-github-webhook-listener"
 ]

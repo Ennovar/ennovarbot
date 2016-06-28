@@ -22,11 +22,13 @@
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^3.4.2",
+    "hubot-spotify-playlist": "^0.2.2",
     "pidof": "^1.0.2",
     "properties": "^1.2.1",
     "request": "^2.72.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "6.2.2",
+    "npm": "2.15.8"
   }
 }
