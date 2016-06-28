@@ -5,6 +5,8 @@
   "author": "Ennovar <ennovarhubot@gmail.com>",
   "description": "Ennovar's personal Slack bot",
   "dependencies": {
+    "bluebird": "^3.4.1",
+    "dbus-native": "^0.2.0",
     "hubot": "^2.18.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-github-webhook-listener": "^0.9.1",
@@ -20,7 +22,9 @@
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^3.4.2",
-    "hubot-spotify-control": "^0.1.0"
+    "pidof": "^1.0.2",
+    "properties": "^1.2.1",
+    "request": "^2.72.0"
   },
   "engines": {
     "node": "0.10.x"
