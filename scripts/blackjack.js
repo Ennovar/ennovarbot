@@ -19,7 +19,7 @@ module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
 		var user = {};
 		user.name = msg.message.user.name;
-		user.hand = [];
+		user.hand = Deck.deal();
 		user.action = "";
 		
 		//Add user to game
