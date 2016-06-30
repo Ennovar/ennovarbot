@@ -63,7 +63,7 @@ var users = [];
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
 		var user = {};
-
+		
 		//Check for new user
 		var newUser = true;
 		for(var i = 0; i < users.length; i++){
@@ -74,14 +74,14 @@ module.exports = function(robot) {
 		}
 		if(newUser){
 			user.name = msg.message.user.name.toLowerCase();
-      // changed this to use a Dealer and make the deck more of a private class, you can use Deck as public if you want but i am giving you the option
-			// user.hand = Deck.deal();
-      user.hand = Dealer.deal();
-
+			user.hand = Dealer.deal();
 			user.action = "";
 			users.push(user);
+			msg.send('Good luck, ' + user.name);
+			msg.messageRoom(msg.message.user.name, "Your current hand: ");
+			for(var i = 0; i < user.hand; i++){
+				msg.messageRoom(msg.message.user.name, user.hand[i]);
+			}
 		}
-	}
-
-	msg.send('');
-	});
+	}		
+});
