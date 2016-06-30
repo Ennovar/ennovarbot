@@ -15,6 +15,7 @@ function getCards(suits, ranks) {
      cards.push({suit: suit, rank: rank});
    }
  }
+ return cards
 }
 
 // Card suits
@@ -22,13 +23,14 @@ var suits = ['♦️','♥️', '♣️', '♠️'];
 // Card ranks 1-K
 var ranks = ['A', 'K', 'Q', 'J', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 var cards = getCards(suits, ranks);
+
 var Deck = {
   cards: cards,
   // get numCards from the deck
   getCards: function(numCards) {
     var cards = []
     for (var i = 0; i < numCards; i++) {
-      cards.push(this.cards[Math.floor(Math.random()*items.length)])
+      cards.push(this.cards[Math.floor(Math.random()*this.cards.length)])
     }
     return cards;
   }
@@ -63,7 +65,7 @@ var users = [];
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
 		var user = {};
-		
+
 		//Check for new user
 		var newUser = true;
 		for(var i = 0; i < users.length; i++){
@@ -83,5 +85,5 @@ module.exports = function(robot) {
 				msg.messageRoom(msg.message.user.name, user.hand[i]);
 			}
 		}
-	}		
-});
+	});
+}
