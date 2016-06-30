@@ -79,11 +79,17 @@ module.exports = function(robot) {
 			user.hand = Dealer.deal();
 			user.action = "";
 			users.push(user);
+      robot.
 			msg.send('Good luck, ' + user.name);
-			msg.messageRoom(msg.message.user.name, "Your current hand: ");
+      msg.send('First Card ' + user.hand[0].suit + ' ' + user.hand[0].rank)
+			// msg.messageRoom(msg.message.user.name, "Your current hand: ");
 			for(var i = 0; i < user.hand; i++){
-				msg.messageRoom(msg.message.user.name, user.hand[i]);
+				// msg.messageRoom(msg.message.user.name, user.hand[i]);
 			}
 		}
 	});
+  robot.respond(/hand/i, function(msg) {
+    
+    msg.send()
+  });
 }
