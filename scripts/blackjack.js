@@ -19,7 +19,7 @@ function getCards(suits, ranks) {
 }
 
 // Card suits
-var suits = ['♦️','♥️', '♣️', '♠️'];
+var suits = [':diamonds:',':hearts:', ':clubs:', ':spades:'];
 // Card ranks 1-K
 var ranks = ['A', 'K', 'Q', 'J', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 var cards = getCards(suits, ranks);
@@ -79,17 +79,20 @@ module.exports = function(robot) {
 			user.hand = Dealer.deal();
 			user.action = "";
 			users.push(user);
-      robot.
 			msg.send('Good luck, ' + user.name);
-      msg.send('First Card ' + user.hand[0].suit + ' ' + user.hand[0].rank)
-			// msg.messageRoom(msg.message.user.name, "Your current hand: ");
-			for(var i = 0; i < user.hand; i++){
-				// msg.messageRoom(msg.message.user.name, user.hand[i]);
+			console.log(user.hand);
+			
+			//Show hand
+			msg.send("Your current hand: ");
+			//msg.messageRoom(msg.message.user.name, "Your current hand: ");
+			for(var i = 0; i < user.hand.length; i++){
+				msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
+				//msg.messageRoom(msg.message.user.name, user.hand[i]);
 			}
 		}
 	});
   robot.respond(/hand/i, function(msg) {
     
-    msg.send()
+    msg.send('');
   });
 }
