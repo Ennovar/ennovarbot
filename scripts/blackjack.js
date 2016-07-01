@@ -87,7 +87,7 @@ function EndGame(robot, msg){
 		
 		//Tell users game is over
 		//msg.send("Game over");
-		robot.messageRoom(msg.message.user.name, "Game over");
+		robot.messageRoom(users[i].name, "Game over");
 	}
 	console.log("Game end");
 	//clear users
