@@ -33,6 +33,16 @@ function getCards(suits, ranks) {
     return cards
 }
 
+//display hand 
+function showHand(robot, msg, user) {
+	msg.send("Your current hand: ");
+	//robot.messageRoom(msg.message.user.name, "Your current hand: ");
+	for(var i = 0; i < user.hand.length; i++){
+		msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
+		//robot.messageRoom(msg.message.user.name, user.hand[i].suit + ' ' + user.hand[i].rank);
+	}
+}
+
 // Card suits
 var suits = [':diamonds:',':hearts:', ':clubs:', ':spades:'];
 // Card ranks 1-K
@@ -71,7 +81,7 @@ module.exports = function(robot) {
 		//Check for new user
 		var newUser = true;
 		for(var i = 0; i < users.length; i++){
-			if(users[i] == user){
+			if(users[i].name == msg.message.user.name.toLowerCase()){
 				newUser = false;
 				msg.send('You have already been dealt cards this round!');
 			}
@@ -81,16 +91,9 @@ module.exports = function(robot) {
 			user.hand = Dealer.deal();
 			user.canHit = true;
 			users.push(user);
-			msg.send('Good luck, ' + user.name);
-			console.log(user.hand);
 			
-			//Show hand
-			msg.send("Your current hand: ");
-			//robot.messageRoom(msg.message.user.name, "Your current hand: ");
-			for(var i = 0; i < user.hand.length; i++){
-				msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
-				//robot.messageRoom(msg.message.user.name, user.hand[i].suit + ' ' + user.hand[i].rank);
-			}
+			msg.send('Good luck, ' + user.name);
+			showHand(robot, msg, user);
 		}
 	});
 	
