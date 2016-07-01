@@ -87,7 +87,7 @@ module.exports = function(robot) {
 			robot.messageRoom(msg.message.user.name, "Your current hand: ");
 			for(var i = 0; i < user.hand.length; i++){
 				//msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
-				robot.messageRoom(msg.message.user.name, user.hand[i].toString());
+				robot.messageRoom(msg.message.user.name, user.hand[i].suit + ' ' + user.hand[i].rank);
 			}
 		}
 	});
