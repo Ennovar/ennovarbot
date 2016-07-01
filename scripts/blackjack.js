@@ -16,7 +16,6 @@
 
 // creates a json out of a json string
 function json(obj) {
-	console.log(obj)
 	return JSON.parse(obj)
 }
 // pretty cards
@@ -33,7 +32,8 @@ function showHand(robot, msg, user) {
  }
 
 
-var blackjack_url = "http://blackjackapi.herokuapp.com";
+ // var blackjack_url = "http://localhost:1337";
+ var blackjack_url = "http://blackjackapi.herokuapp.com";
 var BJAPI = {
 	/**
 	 * deal - gets 2 cards from the dealer, use callback as a callback function to handle recieving data
@@ -48,6 +48,14 @@ var BJAPI = {
 				return callback(json(body))
 			});
 	},
+	hit: function(callback) {
+		robot.http(blackjack_url + "/dealer/hit")
+			.get()(function(err, res, body){
+				console.log(body)
+				// return json object with 1 cards
+				return callback(json(body)[0])
+			});
+	}
 };
 
 var users = [];
@@ -68,14 +76,14 @@ module.exports = function(robot) {
 				user.name = msg.message.user.name.toLowerCase();
 				// here is the example i sent you
 				BJAPI.deal(function(cards){
-					msg.send(prettyCard(cards[0]) + prettyCard(cards[1]));
+					user.hand = cards;
+					showHand(robot, msg, user);
 				})
 				// user.hand = Dealer.deal();
 				user.canHit = true;
 				users.push(user);
 
 				msg.send('Good luck, ' + user.name);
-				showHand(robot, msg, user);
 			}
 		});
 
@@ -86,11 +94,28 @@ module.exports = function(robot) {
 
 		//set canHit based on total
 		//if busted, display BUSTED message
+		BJAPI.hit(function(card){
+			msg.send(prettyCard(card))
+			for(var i = 0; i < users.length; i++){
+				if(users[i].name == msg.message.user.name.toLowerCase()){
+					users[i].hand.push(card)
+				}
+			}
+
+		})
         msg.send('');
     });
 
 	robot.respond(/stand/i, function(msg) {
 		//check if player is in game and status == canHit
+		for(var i = 0; i < users.length; i++){
+			if(users[i].name == msg.message.user.name.toLowerCase()){
+				for (var j = 0; j < users[i].hand.length; j++) {
+					var card = users[i].hand[j];
+					msg.send(prettyCard(card))
+				}
+			}
+		}
 
 		//set canHit to false
         msg.send('');
