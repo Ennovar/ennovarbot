@@ -61,6 +61,7 @@ var BJAPI = {
 };
 
 var users = [];
+var WAIT_TIME = 30000;
 
 //Game logic
 function StartGame(){
@@ -118,7 +119,7 @@ module.exports = function(robot) {
 			})
 			user.canHit = true;
 			//Start 60 second timer to automatically stand player if they go inactive
-			user.timeoutId = setTimeout(function(){ user.canHit = false; msg.send("1 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+			user.timeoutId = setTimeout(function(){ user.canHit = false; msg.send("Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, WAIT_TIME);
 			users.push(user);
 
 			msg.send('Good luck, ' + user.name);
@@ -143,7 +144,7 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ users[id].canHit = false; msg.send("2 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+				users[id].timeoutId = setTimeout(function(){ users[id].canHit = false; msg.send("Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, WAIT_TIME);
 				
 				//deal 1 card, show hand
 				BJAPI.hit(function(card){
