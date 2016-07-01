@@ -45,32 +45,45 @@ var users = [];
 
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
-		var user = {};
+			var user = {};
 
-		//Check for new user
-		var newUser = true;
-		for(var i = 0; i < users.length; i++){
-			if(users[i] == user){
-				newUser = false;
-				msg.send('You are already playing!');
+			//Check for new user
+			var newUser = true;
+			for(var i = 0; i < users.length; i++){
+				if(users[i].name == msg.message.user.name.toLowerCase()){
+					newUser = false;
+					msg.send('You have already been dealt cards this round!');
+				}
 			}
-		}
-		if(newUser){
-			user.name = msg.message.user.name.toLowerCase();
-			user.action = "";
-			users.push(user);
-			msg.send('Good luck, ' + user.name);
-      BJAPI.deal(function(cards){
-				msg.send(prettyCard(cards[0]) + prettyCard(cards[1]));
-			})
-			// msg.messageRoom(msg.message.user.name, "Your current hand: ");
-			for(var i = 0; i < user.hand; i++){
-				// msg.messageRoom(msg.message.user.name, user.hand[i]);
-			}
-		}
-	});
-  robot.respond(/hand/i, function(msg) {
+			if(newUser){
+				user.name = msg.message.user.name.toLowerCase();
+				// here is the example i sent you
+				BJAPI.deal(function(cards){
+					msg.send(prettyCard(cards[0]) + prettyCard(cards[1]));
+				})
+				// user.hand = Dealer.deal();
+				user.canHit = true;
+				users.push(user);
 
-    msg.send()
-  });
+				msg.send('Good luck, ' + user.name);
+				showHand(robot, msg, user);
+			}
+		});
+
+    robot.respond(/hit/i, function(msg) {
+		//check if player is in game and status == canHit
+
+		//deal 1 card, show hand
+
+		//set canHit based on total
+		//if busted, display BUSTED message
+        msg.send('');
+    });
+
+	robot.respond(/stand/i, function(msg) {
+		//check if player is in game and status == canHit
+
+		//set canHit to false
+        msg.send('');
+    });
 }
