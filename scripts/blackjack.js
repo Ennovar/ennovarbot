@@ -29,6 +29,9 @@ function showHand(robot, msg, user) {
  		msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
  		//robot.messageRoom(msg.message.user.name, user.hand[i].suit  ' '  user.hand[i].rank);
  	}
+	
+	//TODO: Calculate and show total
+	
  }
 
 
@@ -51,7 +54,6 @@ var BJAPI = {
 	hit: function(callback) {
 		robot.http(blackjack_url + "/dealer/hit")
 			.get()(function(err, res, body){
-				console.log(body)
 				// return json object with 1 cards
 				return callback(json(body)[0])
 			});
@@ -79,7 +81,6 @@ module.exports = function(robot) {
 					user.hand = cards;
 					showHand(robot, msg, user);
 				})
-				// user.hand = Dealer.deal();
 				user.canHit = true;
 				users.push(user);
 
@@ -88,36 +89,68 @@ module.exports = function(robot) {
 		});
 
     robot.respond(/hit/i, function(msg) {
+		var user = msg.message.user.name.toLowerCase();
+		
 		//check if player is in game and status == canHit
-
-		//deal 1 card, show hand
-
-		//set canHit based on total
-		//if busted, display BUSTED message
-		BJAPI.hit(function(card){
-			msg.send(prettyCard(card))
-			for(var i = 0; i < users.length; i++){
-				if(users[i].name == msg.message.user.name.toLowerCase()){
-					users[i].hand.push(card)
-				}
+		var ingame = false;
+		var canHit = false;
+		var id;
+		for(var i = 0; i < users.length; i++){
+			if(users[i].name == user){
+				ingame = true;
+				canHit = users[i].canHit;
+				id = i;
 			}
-
-		})
-        msg.send('');
+		}
+		if(ingame){
+			if(canHit){
+				//deal 1 card, show hand
+				BJAPI.hit(function(card){
+					users[id].hand.push(card);
+					showHand(robot, msg, users[id])
+				});
+				
+				//TODO: set canHit based on total
+				//if busted, display BUSTED message
+				
+			}
+			else{
+				msg.send("You can't have any more cards this round");
+			}
+		}
+		else{
+			msg.send('You are not in the game yet.  Type "bot deal" to get your cards');
+		}
     });
 
 	robot.respond(/stand/i, function(msg) {
+		var user = msg.message.user.name.toLowerCase();
+		
 		//check if player is in game and status == canHit
+		var ingame = false;
+		var canHit = false;
+		var id;
 		for(var i = 0; i < users.length; i++){
-			if(users[i].name == msg.message.user.name.toLowerCase()){
-				for (var j = 0; j < users[i].hand.length; j++) {
-					var card = users[i].hand[j];
-					msg.send(prettyCard(card))
-				}
+			if(users[i].name == user){
+				ingame = true;
+				canHit = users[i].canHit;
+				id = i;
 			}
 		}
-
-		//set canHit to false
-        msg.send('');
+		if(ingame){
+			if(canHit){
+				//set canHit to false
+				users[id].canHit = false;
+				
+				//TODO: Show total
+				msg.send("Your hand total this round is: ");
+			}
+			else{
+				msg.send("You are already standing");
+			}
+		}
+		else{
+			msg.send('You are not in the game yet.  Type "bot deal" to get your cards');
+		}
     });
 }
