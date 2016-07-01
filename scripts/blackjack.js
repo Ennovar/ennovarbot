@@ -84,10 +84,10 @@ module.exports = function(robot) {
 			
 			//Show hand
 			//msg.send("Your current hand: ");
-			msg.messageRoom(msg.message.user.name, "Your current hand: ");
+			robot.messageRoom(msg.message.user.name, "Your current hand: ");
 			for(var i = 0; i < user.hand.length; i++){
 				//msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
-				msg.messageRoom(msg.message.user.name, user.hand[i]);
+				robot.messageRoom(msg.message.user.name, user.hand[i]);
 			}
 		}
 	});
