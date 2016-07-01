@@ -79,7 +79,7 @@ module.exports = function(robot) {
 		if(newUser){
 			user.name = msg.message.user.name.toLowerCase();
 			user.hand = Dealer.deal();
-			user.status = "canHit";
+			user.canHit = true;
 			users.push(user);
 			msg.send('Good luck, ' + user.name);
 			console.log(user.hand);
@@ -101,7 +101,7 @@ module.exports = function(robot) {
 		
 		//deal 1 card, show hand
 		
-		//set status based on total (canHit or bust)
+		//set canHit based on total
 		//if busted, display BUSTED message
         msg.send('');
     });
@@ -109,7 +109,7 @@ module.exports = function(robot) {
 	robot.respond(/stand/i, function(msg) {
 		//check if player is in game and status == canHit
 		
-		//set status to stand
+		//set canHit to false
         msg.send('');
     });
 }
