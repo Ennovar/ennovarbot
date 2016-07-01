@@ -62,31 +62,68 @@ var BJAPI = {
 
 var users = [];
 
+//Game logic
+function StartGame(){
+	
+}
+
+function CheckEnd(robot, msg){
+	var allStand = true;
+	for(var i = 0; i < users.length; i++){
+		if(users[i].canHit){
+			allStand = false;
+		}
+	}
+	if(allStand){
+		EndGame(robot, msg);
+	}
+}
+
+function EndGame(robot, msg){
+	for(var i = 0; i < users.length; i++){
+		//Stop any active timers
+		clearTimeout(users[i].timeoutId);
+		
+		//Tell users game is over
+		msg.send("Game over");
+		//robot.messageRoom(msg.message.user.name, "Game over");
+	}
+	console.log("Game end");
+	//clear users
+	users = [];
+}
+
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
-			var user = {};
+		//Start game if first player
+		if(users.length == 0){
+			StartGame();
+		}
+		
+		var user = {};
 
-			//Check for new user
-			var newUser = true;
-			for(var i = 0; i < users.length; i++){
-				if(users[i].name == msg.message.user.name.toLowerCase()){
-					newUser = false;
-					msg.send('You have already been dealt cards this round!');
-				}
+		//Check for new user
+		var newUser = true;
+		for(var i = 0; i < users.length; i++){
+			if(users[i].name == msg.message.user.name.toLowerCase()){
+				newUser = false;
+				msg.send('You have already been dealt cards this round!');
 			}
-			if(newUser){
-				user.name = msg.message.user.name.toLowerCase();
-				// here is the example i sent you
-				BJAPI.deal(function(cards){
-					user.hand = cards;
-					showHand(robot, msg, user);
-				})
-				user.canHit = true;
-				users.push(user);
+		}
+		if(newUser){
+			user.name = msg.message.user.name.toLowerCase();
+			BJAPI.deal(function(cards){
+				user.hand = cards;
+				showHand(robot, msg, user);
+			})
+			user.canHit = true;
+			//Start 60 second timer to automatically stand player if they go inactive
+			user.timeoutId = setTimeout(function(){ user.canHit = false; msg.send("1 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+			users.push(user);
 
-				msg.send('Good luck, ' + user.name);
-			}
-		});
+			msg.send('Good luck, ' + user.name);
+		}
+	});
 
     robot.respond(/hit/i, function(msg) {
 		var user = msg.message.user.name.toLowerCase();
@@ -104,6 +141,10 @@ module.exports = function(robot) {
 		}
 		if(ingame){
 			if(canHit){
+				//reset idle timer
+				clearTimeout(users[id].timeoutId);
+				users[id].timeoutId = setTimeout(function(){ users[id].canHit = false; msg.send("2 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+				
 				//deal 1 card, show hand
 				BJAPI.hit(function(card){
 					users[id].hand.push(card);
@@ -139,11 +180,18 @@ module.exports = function(robot) {
 		}
 		if(ingame){
 			if(canHit){
+				//stop timer
+				clearTimeout(users[id].timeoutId);
+				
 				//set canHit to false
 				users[id].canHit = false;
 				
 				//TODO: Show total
 				msg.send("Your hand total this round is: ");
+				
+				//TODO: Check if all players are standing
+				//if so, end round, display winners, and clear users
+				CheckEnd(robot, msg);
 			}
 			else{
 				msg.send("You are already standing");
