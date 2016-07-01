@@ -23,6 +23,15 @@ function json(obj) {
 function prettyCard(card) {
 	return card.suit + ' ' + card.rank
 }
+function showHand(robot, msg, user) {
+ 	msg.send("Your current hand: ");
+ 	//robot.messageRoom(msg.message.user.name, "Your current hand: ");
+ 	for(var i = 0; i < user.hand.length; i++){
+ 		msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
+ 		//robot.messageRoom(msg.message.user.name, user.hand[i].suit  ' '  user.hand[i].rank);
+ 	}
+ }
+
 
 var blackjack_url = "http://blackjackapi.herokuapp.com";
 var BJAPI = {
