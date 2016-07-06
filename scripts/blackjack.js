@@ -75,12 +75,12 @@ function prettyCard(card) {
 	return card.suit + ' ' + card.rank
 }
 function showHand(robot, msg) {
- 	msg.send("Your current hand: ");
-	//robot.messageRoom(msg.message.user.name, "Your current hand");
+ 	//msg.send("Your current hand: ");
+	robot.messageRoom(msg.message.user.name, "Your current hand");
 	BJAPI.hand(msg.message.user.name.toLowerCase(), function(hand) {
       for (var i = 0; i < hand.length; i++) {
-        msg.send(prettyCard(hand[i]));
-		//robot.messageRoom(msg.message.user.name, prettyCard(hand[i]));
+        //msg.send(prettyCard(hand[i]));
+		robot.messageRoom(msg.message.user.name, prettyCard(hand[i]));
       }
     });
 	// TODO: Calculate and show total
@@ -92,8 +92,8 @@ function EndGame(robot, msg){
 		clearTimeout(users[i].timeoutId);
 
 		//Tell users game is over
-		msg.send("Game over");
-		//robot.messageRoom(msg.message.user.name, "Game over");
+		//msg.send("Game over");
+		robot.messageRoom(msg.message.user.name, "Game over");
 	}
 	
 	//TODO: Compare totals, determine winner
@@ -141,10 +141,13 @@ module.exports = function(robot) {
 			//Start 60 second timer to automatically stand player if they go inactive
 			user.timeoutId = setTimeout(function(){
 				user.canHit = false;
-				msg.send("Automatically Standing due to inactivity");
+				//msg.send("Automatically Standing due to inactivity");
+				robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
 				BJAPI.stand(username, function(score) {
-					msg.send("Your hand total this round is: ");
-					msg.send(score.user_message);
+					//msg.send("Your hand total this round is: ");
+					//msg.send(score.user_message);
+					robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					robot.messageRoom(msg.message.user.name, score.user_message);
 					if(score.message == "Everyone is standing!!!"){
 						EndGame(robot, msg);
 					}
@@ -174,17 +177,20 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ 
-					users[id].canHit = false;
-					msg.send("Automatically Standing due to inactivity");
-					BJAPI.stand(username, function(score) {
-						msg.send("Your hand total this round is: ");
-						msg.send(score.user_message);
-						if(score.message == "Everyone is standing!!!"){
-							EndGame(robot, msg);
-						}
-					});
-				}, 60000);
+				user.timeoutId = setTimeout(function(){
+				user.canHit = false;
+				//msg.send("Automatically Standing due to inactivity");
+				robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
+				BJAPI.stand(username, function(score) {
+					//msg.send("Your hand total this round is: ");
+					//msg.send(score.user_message);
+					robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					robot.messageRoom(msg.message.user.name, score.user_message);
+					if(score.message == "Everyone is standing!!!"){
+						EndGame(robot, msg);
+					}
+				});
+			}, 60000);
 
 				//deal 1 card, show hand
 				BJAPI.hit(users[id].name, function(card){
@@ -230,11 +236,13 @@ module.exports = function(robot) {
 
 				//TODO: Show total
 				BJAPI.stand(username, function(score) {
-					msg.send("Your hand total this round is: ");
-					msg.send(score.user_message);
+					//msg.send("Your hand total this round is: ");
+					//msg.send(score.user_message);
+					robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					robot.messageRoom(msg.message.user.name, score.user_message);
 					if(score.message == "Everyone is standing!!!"){
 						EndGame(robot, msg);
-				    }
+					}
 				});
 			}
 			else{
