@@ -14,29 +14,10 @@
 //   Ryan Fisher and Austin Crane
 
 
-// creates a json out of a json string
-function json(obj) {
-	return JSON.parse(obj)
-}
-// pretty cards
-function prettyCard(card) {
-	return card.suit + ' ' + card.rank
-}
-function showHand(robot, msg, user) {
- 	msg.send("Your current hand: ");
- 	//robot.messageRoom(msg.message.user.name, "Your current hand: ");
- 	for(var i = 0; i < user.hand.length; i++){
- 		msg.send(user.hand[i].suit + ' ' + user.hand[i].rank);
- 		//robot.messageRoom(msg.message.user.name, user.hand[i].suit  ' '  user.hand[i].rank);
- 	}
+//var blackjack_url = "http://localhost:8000/";
+//var blackjack_url = "http://10.16.20.22:3000/";
+var blackjack_url = "http://blackjackapi.herokuapp.com";
 
-	//TODO: Calculate and show total
-
- }
-
-
- var blackjack_url = "http://localhost:8000/";
- // var blackjack_url = "http://blackjackapi.herokuapp.com";
 var BJAPI = {
   start: function(callback){
     robot.http(blackjack_url + '/dealer/start')
@@ -48,37 +29,36 @@ var BJAPI = {
            return callback()
          });
   },
-	/**
-	 * deal - gets 2 cards from the dealer, use callback as a callback function to handle recieving data
-	 *
-	 * @param  {function} callback callback as a callback function to handle recieving data, it will have on parameter callback(cards)
-	 * @return {function}          callback
-	 */
-	deal: function(username, callback) {
+	deal: function(username, shouldStart, callback) {
+		var user = {
+			username: username,
+			start: shouldStart
+		}
 		robot.http(blackjack_url + "/dealer/deal")
-         .header('Content-Type', 'application/json')
-         .post({username: username}) (function(err, resp, body) {
-           return callback(body)
+				 .header('Content-Type', 'application/json')
+         .post(JSON.stringify({username: username, start: shouldStart})) (function(err, resp, body) {
+           return callback(json(body))
          });
 	},
 	hit: function(username, callback) {
 		robot.http(blackjack_url + "/dealer/hit")
          .header('Content-Type', 'application/json')
-			   .post({username: username}) (function(err, res, body){
-    			 return callback(json(body)[0])
+			   .post(JSON.stringify({username: username})) (function(err, res, body){
+    			 return callback(json(body))
     		 });
 	},
   stand: function(username, callback) {
     robot.http(blackjack_url + "/dealer/stand")
          .header('Content-Type', 'application/json')
-         .post({username: username}) (function(err, res, body){
+         .post(JSON.stringify({username: username})) (function(err, res, body){
+			 console.log(body);
            return callback(json(body))
          });
   },
   hand: function(username, callback) {
     robot.http(blackjack_url + "/dealer/hand")
          .header('Content-Type', 'application/json')
-         .post({username: username}) (function(err, res, body){
+         .post(JSON.stringify({username: username})) (function(err, res, body){
            return callback(json(body))
          });
   }
@@ -86,21 +66,24 @@ var BJAPI = {
 
 var users = [];
 
-//Game logic
-function StartGame(){
-
+// creates a json out of a json string
+function json(obj) {
+	return JSON.parse(obj)
 }
-
-function CheckEnd(robot, msg){
-	var allStand = true;
-	for(var i = 0; i < users.length; i++){
-		if(users[i].canHit){
-			allStand = false;
-		}
-	}
-	if(allStand){
-		EndGame(robot, msg);
-	}
+// pretty cards
+function prettyCard(card) {
+	return card.suit + ' ' + card.rank
+}
+function showHand(robot, msg) {
+ 	msg.send("Your current hand: ");
+	//robot.messageRoom(msg.message.user.name, "Your current hand");
+	BJAPI.hand(msg.message.user.name.toLowerCase(), function(hand) {
+      for (var i = 0; i < hand.length; i++) {
+        msg.send(prettyCard(hand[i]));
+		//robot.messageRoom(msg.message.user.name, prettyCard(hand[i]));
+      }
+    });
+	// TODO: Calculate and show total
 }
 
 function EndGame(robot, msg){
@@ -112,16 +95,27 @@ function EndGame(robot, msg){
 		msg.send("Game over");
 		//robot.messageRoom(msg.message.user.name, "Game over");
 	}
-	console.log("Game end");
+	
+	//TODO: Compare totals, determine winner
+	
+	
 	//clear users
 	users = [];
+	console.log("Game ended");
 }
 
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
 		//Start game if first player
-		if(users.length == 0){
-			StartGame();
+		var shuffle;
+		if(users == 0){
+			shuffle = true;
+			BJAPI.deal(robot.name, shuffle, function(cards){
+				//show one card from dealer hand
+			});
+		}
+		else{
+			shuffle = false;
 		}
 
 		var user = {};
@@ -135,30 +129,42 @@ module.exports = function(robot) {
 			}
 		}
 		if(newUser){
-			user.name = msg.message.user.name.toLowerCase();
-			BJAPI.deal(user.name, function(cards){
-				user.hand = cards;
-        console.log(cards)
-				showHand(robot, msg, user);
-			})
+			var username = msg.message.user.name.toLowerCase();
+			user.name = username;
 			user.canHit = true;
+			
+			BJAPI.deal(username, shuffle, function(cards){
+				user.hand = cards;
+				showHand(robot, msg);
+			});
+			
 			//Start 60 second timer to automatically stand player if they go inactive
-			user.timeoutId = setTimeout(function(){ user.canHit = false; msg.send("1 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+			user.timeoutId = setTimeout(function(){
+				user.canHit = false;
+				msg.send("Automatically Standing due to inactivity");
+				BJAPI.stand(username, function(score) {
+					msg.send("Your hand total this round is: ");
+					msg.send(score.user_message);
+					if(score.message == "Everyone is standing!!!"){
+						EndGame(robot, msg);
+					}
+				});
+			}, 60000);
 			users.push(user);
 
-			msg.send('Good luck, ' + user.name);
+			msg.send('Good luck, ' + username);
 		}
 	});
 
   robot.respond(/hit/i, function(msg) {
-		var user = msg.message.user.name.toLowerCase();
+		var username = msg.message.user.name.toLowerCase();
 
 		//check if player is in game and status == canHit
 		var ingame = false;
 		var canHit = false;
 		var id;
 		for(var i = 0; i < users.length; i++){
-			if(users[i].name == user){
+			if(users[i].name == username){
 				ingame = true;
 				canHit = users[i].canHit;
 				id = i;
@@ -168,12 +174,23 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ users[id].canHit = false; msg.send("2 - Automatically Standing due to inactivity"); CheckEnd(robot, msg); }, 60000);
+				users[id].timeoutId = setTimeout(function(){ 
+					users[id].canHit = false;
+					msg.send("Automatically Standing due to inactivity");
+					BJAPI.stand(username, function(score) {
+						msg.send("Your hand total this round is: ");
+						msg.send(score.user_message);
+						if(score.message == "Everyone is standing!!!"){
+							EndGame(robot, msg);
+						}
+					});
+				}, 60000);
 
 				//deal 1 card, show hand
 				BJAPI.hit(users[id].name, function(card){
-					users[id].hand.push(card);
-					showHand(robot, msg, users[id])
+					console.log(card)
+					users[id].hand = card;
+					showHand(robot, msg)
 				});
 
 				//TODO: set canHit based on total
@@ -188,20 +205,16 @@ module.exports = function(robot) {
 			msg.send('You are not in the game yet.  Type "bot deal" to get your cards');
 		}
     });
-  robot.respond(/blackjack/i, function(msg) {
-    BJAPI.start(function(){
-      msg.send("Cards are shuffled and ready to go ladies and gents! Anyone want to play? ('bot deal' to start playing)")
-    })
-  });
+
 	robot.respond(/stand/i, function(msg) {
-		var user = msg.message.user.name.toLowerCase();
+		var username = msg.message.user.name.toLowerCase();
 
 		//check if player is in game and status == canHit
 		var ingame = false;
 		var canHit = false;
 		var id;
 		for(var i = 0; i < users.length; i++){
-			if(users[i].name == user){
+			if(users[i].name == username){
 				ingame = true;
 				canHit = users[i].canHit;
 				id = i;
@@ -216,14 +229,13 @@ module.exports = function(robot) {
 				users[id].canHit = false;
 
 				//TODO: Show total
-        BJAPI.stand(msg.message.user.name.toLowerCase(), function(score) {
-          msg.send("Your hand total this round is: ");
-          msg.send(score.message)
-        });
-
-				//TODO: Check if all players are standing
-				//if so, end round, display winners, and clear users
-				CheckEnd(robot, msg);
+				BJAPI.stand(username, function(score) {
+					msg.send("Your hand total this round is: ");
+					msg.send(score.user_message);
+					if(score.message == "Everyone is standing!!!"){
+						EndGame(robot, msg);
+				    }
+				});
 			}
 			else{
 				msg.send("You are already standing");
@@ -233,12 +245,4 @@ module.exports = function(robot) {
 			msg.send('You are not in the game yet.  Type "bot deal" to get your cards');
 		}
     });
-  robot.respond(/hand/i, function(msg) {
-    BJAPI.hand(msg.message.user.name.toLowerCase(), function(hand) {
-      for (var i = 0; i < hand.length; i++) {
-        var card = hand[i]
-        msg.send(prettyCard(hand))
-      }
-    });
-  });
 }
