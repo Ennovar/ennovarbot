@@ -110,9 +110,9 @@ module.exports = function(robot) {
 		var shuffle;
 		if(users == 0){
 			shuffle = true;
-			BJAPI.deal(robot.name, shuffle, function(cards){
+			//BJAPI.deal(robot.name, shuffle, function(cards){
 				//show one card from dealer hand
-			});
+			//});
 		}
 		else{
 			shuffle = false;
