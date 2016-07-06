@@ -142,9 +142,12 @@ module.exports = function(robot) {
 			user.timeoutId = setTimeout(function(){
 				user.canHit = false;
 				msg.send("Automatically Standing due to inactivity");
+				//robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
 				BJAPI.stand(username, function(score) {
 					msg.send("Your hand total this round is: ");
 					msg.send(score.user_message);
+					//robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					//robot.messageRoom(msg.message.user.name, score.user_message);
 					if(score.message == "Everyone is standing!!!"){
 						EndGame(robot, msg);
 					}
@@ -174,17 +177,20 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ 
-					users[id].canHit = false;
-					msg.send("Automatically Standing due to inactivity");
-					BJAPI.stand(username, function(score) {
-						msg.send("Your hand total this round is: ");
-						msg.send(score.user_message);
-						if(score.message == "Everyone is standing!!!"){
-							EndGame(robot, msg);
-						}
-					});
-				}, 60000);
+				user.timeoutId = setTimeout(function(){
+				user.canHit = false;
+				msg.send("Automatically Standing due to inactivity");
+				//robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
+				BJAPI.stand(username, function(score) {
+					msg.send("Your hand total this round is: ");
+					msg.send(score.user_message);
+					//robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					//robot.messageRoom(msg.message.user.name, score.user_message);
+					if(score.message == "Everyone is standing!!!"){
+						EndGame(robot, msg);
+					}
+				});
+			}, 60000);
 
 				//deal 1 card, show hand
 				BJAPI.hit(users[id].name, function(card){
@@ -232,9 +238,11 @@ module.exports = function(robot) {
 				BJAPI.stand(username, function(score) {
 					msg.send("Your hand total this round is: ");
 					msg.send(score.user_message);
+					//robot.messageRoom(msg.message.user.name, "Your hand total this round is: ");
+					//robot.messageRoom(msg.message.user.name, score.user_message);
 					if(score.message == "Everyone is standing!!!"){
 						EndGame(robot, msg);
-				    }
+					}
 				});
 			}
 			else{
