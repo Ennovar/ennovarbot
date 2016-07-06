@@ -177,8 +177,8 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				user.timeoutId = setTimeout(function(){
-				user.canHit = false;
+				users[i].timeoutId = setTimeout(function(){
+				users[i].canHit = false;
 				//msg.send("Automatically Standing due to inactivity");
 				robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
 				BJAPI.stand(username, function(score) {
