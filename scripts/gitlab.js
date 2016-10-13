@@ -23,8 +23,12 @@ module.exports = function(robot) {
   robot.router.post("/gitlab/project/backend", function(req, re) {
     var teamlead  = "austin";
     console.log(req.body)
-    var output = req.body.output;
-    robot.messageRoom(teamlead, output);
+    var author = req.body.user_name;
+    var url_diff = req.body.commits[req.body.commits.length].url
+    var message = "New Commit in " + project_name + " by " + author + " commit diff " + url_diff;
+
+    console.log(message)
+    robot.messageRoom(teamlead, message);
     res.send('OK');
   });
   robot.router.post("/gitlab/project/frontend", function(req, re) {
