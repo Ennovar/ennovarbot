@@ -22,6 +22,7 @@ module.exports = function(robot) {
   });
   robot.router.post("/gitlab/project/backend", function(req, re) {
     var teamlead  = "austin";
+    console.log(req.body)
     var output = req.body.output;
     robot.messageRoom(teamlead, output);
     res.send('OK');
