@@ -21,9 +21,21 @@ module.exports = function(robot) {
     res.send('OK')
   });
   robot.router.post("/gitlab/project/backend", function(req, re) {
-    var austin = "U0LMXRW0P";
+    var teamlead  = "austin";
     var output = req.body.output;
-    robot.messageRoom('austin', output);
+    robot.messageRoom(teamlead, output);
+    res.send('OK');
+  });
+  robot.router.post("/gitlab/project/frontend", function(req, re) {
+    var teamlead  = "jerekshoe";
+    var output = req.body.output;
+    robot.messageRoom(teamlead, output);
+    res.send('OK');
+  });
+  robot.router.post("/gitlab/project/mobile", function(req, re) {
+    var teamlead  = "aymana";
+    var output = req.body.output;
+    robot.messageRoom(teamlead, output);
     res.send('OK');
   });
 }
