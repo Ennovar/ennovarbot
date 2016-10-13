@@ -24,6 +24,7 @@ module.exports = function(robot) {
     var teamlead  = "austin";
     console.log(req.body)
     var author = req.body.user_name;
+    var project_name = req.body.project.name;
     var url_diff = req.body.commits[req.body.commits.length - 1].url
     var message = "New Commit in " + project_name + " by " + author + " commit diff " + url_diff;
 
