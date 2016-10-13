@@ -20,7 +20,7 @@ module.exports = function(robot) {
     robot.messageRoom(channel, output);
     res.send('OK')
   });
-  robot.router.post("gitlab/project/backend", function(req, re) {
+  robot.router.post("/gitlab/project/backend", function(req, re) {
     var austin = "U0LMXRW0P";
     var output = req.body.output;
     robot.messageRoom('austin', output);
