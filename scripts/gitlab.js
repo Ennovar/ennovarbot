@@ -18,5 +18,7 @@ module.exports = function(robot) {
     var channel = req.body.channel;
     var output = req.body.output;
     robot.messageRoom(channel, output);
+    res.send('OK')
+
   });
 }
