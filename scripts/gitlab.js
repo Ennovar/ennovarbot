@@ -27,21 +27,30 @@ module.exports = function(robot) {
     var project_name = req.body.project.name;
     var url_diff = req.body.commits[req.body.commits.length - 1].url
     var message = "New Commit in " + project_name + " by " + author + " commit diff " + url_diff;
-
     console.log(message)
     robot.messageRoom(teamlead, message);
     res.send('OK');
   });
   robot.router.post("/gitlab/project/frontend", function(req, re) {
     var teamlead  = "jerekshoe";
-    var output = req.body.output;
-    robot.messageRoom(teamlead, output);
+    console.log(req.body)
+    var author = req.body.user_name;
+    var project_name = req.body.project.name;
+    var url_diff = req.body.commits[req.body.commits.length - 1].url
+    var message = "New Commit in " + project_name + " by " + author + " commit diff " + url_diff;
+    console.log(message)
+    robot.messageRoom(teamlead, message);
     res.send('OK');
   });
   robot.router.post("/gitlab/project/mobile", function(req, re) {
     var teamlead  = "aymana";
-    var output = req.body.output;
-    robot.messageRoom(teamlead, output);
+    console.log(req.body)
+    var author = req.body.user_name;
+    var project_name = req.body.project.name;
+    var url_diff = req.body.commits[req.body.commits.length - 1].url
+    var message = "New Commit in " + project_name + " by " + author + " commit diff " + url_diff;
+    console.log(message)
+    robot.messageRoom(teamlead, message);
     res.send('OK');
   });
 }
