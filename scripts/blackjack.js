@@ -60,7 +60,6 @@ var Dealer = {
 // Author:
 //   Ryan Fisher and Austin Crane
 
-<<<<<<< HEAD
 
 //var blackjack_url = "http://localhost:8000/";
 //var blackjack_url = "http://10.16.20.22:3000/";
@@ -143,10 +142,10 @@ function EndGame(robot, msg){
 		//msg.send("Game over");
 		robot.messageRoom(msg.message.user.name, "Game over");
 	}
-	
+
 	//TODO: Compare totals, determine winner
-	
-	
+
+
 	//clear users
 	users = [];
 	console.log("Game ended");
@@ -166,18 +165,15 @@ module.exports = function(robot) {
 			shuffle = false;
 		}
 
-=======
 var users = [];
 
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
->>>>>>> 9cc775ae4668c5a09da430024f625f0cbad871f7
 		var user = {};
 
 		//Check for new user
 		var newUser = true;
 		for(var i = 0; i < users.length; i++){
-<<<<<<< HEAD
 			if(users[i].name == msg.message.user.name.toLowerCase()){
 				newUser = false;
 				msg.send('You have already been dealt cards this round!');
@@ -187,12 +183,12 @@ module.exports = function(robot) {
 			var username = msg.message.user.name.toLowerCase();
 			user.name = username;
 			user.canHit = true;
-			
+
 			BJAPI.deal(username, shuffle, function(cards){
 				user.hand = cards;
 				showHand(robot, msg);
 			});
-			
+
 			//Start 60 second timer to automatically stand player if they go inactive
 			user.timeoutId = setTimeout(function(){
 				user.canHit = false;
@@ -232,7 +228,7 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ 
+				users[id].timeoutId = setTimeout(function(){
 					users[id].canHit = false;
 					//msg.send("Automatically Standing due to inactivity");
 					robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
@@ -320,7 +316,7 @@ module.exports = function(robot) {
 			users.push(user);
 			msg.send('Good luck, ' + user.name);
 			console.log(user.hand);
-			
+
 			//Show hand
 			//msg.send("Your current hand: ");
 			msg.messageRoom(msg.message.user.name, "Your current hand: ");
@@ -331,7 +327,7 @@ module.exports = function(robot) {
 		}
 	});
   robot.respond(/hand/i, function(msg) {
-    
+
     msg.send('');
   });
 }
