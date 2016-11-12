@@ -60,7 +60,6 @@ var Dealer = {
 // Author:
 //   Ryan Fisher and Austin Crane
 
-<<<<<<< HEAD
 
 //var blackjack_url = "http://localhost:8000/";
 //var blackjack_url = "http://10.16.20.22:3000/";
@@ -166,18 +165,15 @@ module.exports = function(robot) {
 			shuffle = false;
 		}
 
-=======
 var users = [];
 
 module.exports = function(robot) {
 	robot.respond(/deal/i, function(msg) {
->>>>>>> 9cc775ae4668c5a09da430024f625f0cbad871f7
 		var user = {};
 
 		//Check for new user
 		var newUser = true;
 		for(var i = 0; i < users.length; i++){
-<<<<<<< HEAD
 			if(users[i].name == msg.message.user.name.toLowerCase()){
 				newUser = false;
 				msg.send('You have already been dealt cards this round!');
