@@ -26,7 +26,7 @@ module.exports = function(robot) {
     if (user.indexOf('@') !== -1) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
-          setInterval(function() {
+          setTimeout(function() {
             robot.messageRoom(user.slice(1), "booooomb ");
           }, 500 * i )
         })(i);
