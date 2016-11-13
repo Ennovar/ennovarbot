@@ -45,13 +45,9 @@ module.exports = function(robot) {
   robot.respond(/annoy (.*)$/i, function(msg) {
     var user = msg.match[1];
     if (user.indexOf('@') !== -1) {
-      for ( var i = 0; i < 10; i++) {
-        (function(i) {
-          annoyIntervalId = setInterval(function() {
-            robot.messageRoom(user.slice(1), "booooomb ");
-          }, 500 * i )
-        })(i);
-      }
+      annoyIntervalId = setInterval(function() {
+        robot.messageRoom(user.slice(1), "booooomb ");
+      }, 500);
     }
   });
 
@@ -60,7 +56,7 @@ module.exports = function(robot) {
     if (user.indexOf('@') !== -1) {
       clearInterval(function() {
         annoyIntervalId = null;
-      })
+      });
     }
   });
 }
