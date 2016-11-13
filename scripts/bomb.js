@@ -18,14 +18,24 @@
    return new Promise((resolve) => setTimeout(resolve, time));
 }
 module.exports = function(robot) {
-	robot.respond(/bomb \w+/i, function(msg) {
-    var message = msg.message.text.replace('bot bomb', '');
-    for( var i = 0; i < 10; i++) {
-        (function(i){
-              setTimeout(function(){
-                      msg.send("booooomb " + message);
-                        }, 500 * i )
-               })(i);
+	robot.respond(/bomb (\w)$/i, function(msg) {
+    var user = msg.match[1];
+    if (user.indexOf('@') !== -1) {
+      for ( var i = 0; i < 10; i++) {
+        function(i) {
+          setTimeout(function() {
+            robot.messageRoom(user, "booooomb ");
+          }, 500 * i )
+        })(i);
+      }
+    } else {
+      for ( var i = 0; i < 10; i++) {
+        function(i) {
+          setTimeout(function() {
+            msg.send("booooomb " + user);
+          }, 500 * i )
+        })(i);
+      }
     }
   });
 }
