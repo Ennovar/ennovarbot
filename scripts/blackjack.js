@@ -141,10 +141,10 @@ function EndGame(robot, msg){
 		//msg.send("Game over");
 		robot.messageRoom(msg.message.user.name, "Game over");
 	}
-	
+
 	//TODO: Compare totals, determine winner
-	
-	
+
+
 	//clear users
 	users = [];
 	console.log("Game ended");
@@ -163,7 +163,6 @@ module.exports = function(robot) {
 		else{
 			shuffle = false;
 		}
-    
 var users = [];
 
 module.exports = function(robot) {
@@ -182,12 +181,12 @@ module.exports = function(robot) {
 			var username = msg.message.user.name.toLowerCase();
 			user.name = username;
 			user.canHit = true;
-			
+
 			BJAPI.deal(username, shuffle, function(cards){
 				user.hand = cards;
 				showHand(robot, msg);
 			});
-			
+
 			//Start 60 second timer to automatically stand player if they go inactive
 			user.timeoutId = setTimeout(function(){
 				user.canHit = false;
@@ -227,7 +226,7 @@ module.exports = function(robot) {
 			if(canHit){
 				//reset idle timer
 				clearTimeout(users[id].timeoutId);
-				users[id].timeoutId = setTimeout(function(){ 
+				users[id].timeoutId = setTimeout(function(){
 					users[id].canHit = false;
 					//msg.send("Automatically Standing due to inactivity");
 					robot.messageRoom(msg.message.user.name, "Automatically Standing due to inactivity");
@@ -315,7 +314,7 @@ module.exports = function(robot) {
 			users.push(user);
 			msg.send('Good luck, ' + user.name);
 			console.log(user.hand);
-			
+
 			//Show hand
 			//msg.send("Your current hand: ");
 			msg.messageRoom(msg.message.user.name, "Your current hand: ");
@@ -326,7 +325,7 @@ module.exports = function(robot) {
 		}
 	});
   robot.respond(/hand/i, function(msg) {
-    
+
     msg.send('');
   });
 }
