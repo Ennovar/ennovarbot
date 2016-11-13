@@ -23,6 +23,7 @@
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^3.4.2",
     "hubot-spotify-playlist": "^0.2.2",
+    "lodash": "^3.10.1",
     "pidof": "^1.0.2",
     "properties": "^1.2.1",
     "request": "^2.72.0"
