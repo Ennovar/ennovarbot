@@ -48,19 +48,19 @@ var hangState = [
   '          |         |     \n' +
   '          |        O     \n' +
   '          |         |     \n' +
-  '          |       /  \\    \n' +
+  '          |       / \\    \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |       /\|    \n' +
-  '          |       /  \\    \n' +
+  '          |       / \\    \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |       /\|\\\ \n' +
-  '          |       /  \\   \n' +
+  '          |       / \\   \n' +
   ' _____|_____     \n'
 ];
 
@@ -80,16 +80,17 @@ function didMiss(guess) {
 }
 
 function endGame() {
+  if (misses === 6) {
+    message = 'You lose :sob:' + '\n' + word;
+  } else if (didComplete()) {
+    message =  'You win :sunglasses:!!!';
+  }
   category = '';
   guesses = [];
-  word = '';
   misses = 0;
+  word = '';
   inProgress = false;
-  if (misses === 6) {
-    return 'You lose :sob:' + '\n' + word;
-  } else if (didComplete()) {
-    return 'You win :sunglasses:!!!';
-  }
+  return message;
 }
 
 function guessLetter(guess) {
