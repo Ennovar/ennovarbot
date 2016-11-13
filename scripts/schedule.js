@@ -40,7 +40,7 @@ module.exports = function(robot) {
            thisWeek.forEach(function(week){
              week.games.forEach(function(item){
                var date = new Date(item.scheduled);
-               msg.send(item.home.name + " _vs_ " + item.away.name + " at " + date.toISOString().substr(0,10) + " venue: " + item.venue.name + ", " + item.venue.city);
+               msg.send(item.home.name + " vs " + item.away.name + " at " + date.toISOString().substr(0,10) + " venue: " + item.venue.name + ", " + item.venue.city);
              })
            });
          });
