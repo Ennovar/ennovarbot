@@ -18,7 +18,7 @@
    return new Promise((resolve) => setTimeout(resolve, time));
 }
 module.exports = function(robot) {
-	robot.respond(/bomb (\w+)$/i, function(msg) {
+	robot.respond(/bomb (.*)$/i, function(msg) {
     var user = msg.match[1];
     msg.send(user.slice(1));
     if (user.indexOf('@') !== -1) {
