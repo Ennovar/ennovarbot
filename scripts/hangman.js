@@ -35,32 +35,32 @@ var hangState = [
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
-  '          |        |     \n' +
+  '          |         |     \n' +
   '          |          \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |         |     \n' +
-  '          |        /      \n' +
+  '          |       /      \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |         |     \n' +
-  '          |        / \\    \n' +
+  '          |       / \\    \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |        /\|    \n' +
-  '          |        / \\    \n' +
+  '          |       / \\    \n' +
   ' _____|_____     \n',
   '           _____      \n' +
   '          |         |     \n' +
   '          |        O     \n' +
   '          |        /\|\\\ \n' +
-  '          |        / \\   \n' +
+  '          |       / \\   \n' +
   ' _____|_____     \n'
 ];
 
@@ -86,9 +86,9 @@ function endGame() {
   misses = 0;
   inProgress = false;
   if (misses === 6) {
-    return 'You lose' + '\n' + word;
+    return 'You lose :(' + '\n' + word;
   } else if (didComplete()) {
-    return 'You win';
+    return 'You win!!!';
   }
 }
 
