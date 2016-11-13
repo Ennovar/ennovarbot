@@ -58,9 +58,9 @@ module.exports = function(robot) {
   robot.respond(/stop annoying (.*)$/i, function(msg) {
     var user = msg.match[1];
     if (user.indexOf('@') !== -1) {
-      clearInterval(annoyIntervalId) {
+      clearInterval(function() {
         annoyIntervalId = null;
-      }
+      })
     }
   });
 }
