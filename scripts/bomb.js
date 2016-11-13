@@ -24,7 +24,7 @@ module.exports = function(robot) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
           setTimeout(function() {
-            robot.messageRoom(user, "booooomb ");
+            robot.messageRoom(user.slice(1), "booooomb ");
           }, 500 * i )
         })(i);
       }
