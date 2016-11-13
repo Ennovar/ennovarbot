@@ -29,23 +29,33 @@ var phrases = {
   'Halloween': 'https://media.giphy.com/media/qUHxAava8vmUg/giphy.gif',
   'Hanukkah': 'http://cdn.history.com/sites/2/2013/12/hanukkah-dreidel.jpg',
   'Eid': 'http://eidmubarakwishess.com/wp-content/uploads/2016/04/Happy-Eid-Cards-1024x768.jpg',
-  'Ramadan': 'http://www.isglmasjid.org/uploads/2/4/6/3/24639313/s187386973411428658_p33_i1_w250.jpeg'
+  'Ramadan': 'http://www.isglmasjid.org/uploads/2/4/6/3/24639313/s187386973411428658_p33_i1_w250.jpeg',
+  'reindeer': 'https://s-media-cache-ak0.pinimg.com/originals/5d/81/3c/5d813c61558edba429fe0549da299379.png',
+  'Rudolph': 'https://i.ytimg.com/vi/mfWH2AVSrww/hqdefault.jpg',
+  'gingerbread': 'http://www-tc.pbs.org/food/wp-content/blogs.dir/2/files/2013/12/gingerbread-5.jpg',
+  'candy canes': 'http://www.picgifs.com/graphics/c/christmas-candy-cane/graphics-christmas-candy-cane-562089.gif',
+  'snowman': 'https://media.giphy.com/media/gSxwClHFJeTQc/giphy.gif',
+  'candy': 'https://media.giphy.com/media/5kvGTbNJqi5nG/giphy.gif',
+  'first day of Christmas': 'On the first day of Christmas my true love gave to me...a partridge in a pear tree!',
+  'deck the halls': 'Deck the halls with boughs of holly, fa la la la LA la la la la!'
 }
 // sleep time expects milliseconds
  function sleep (time) {
    return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+
 var selectedPhrase = "";
 module.exports = function(robot) {
 	   robot.listen(
       // this function should return true if the bot should respond
       // return false meanse response function wont get called
       function(msg) {
-        var message = msg.message.text;
+        var message = msg.message.text.toLowerCase();
 
           for (var key in phrases)
             {
-              if (message == key) {
+              if (message == key.toLowerCase()) {
                 selectedPhrase = phrases[key];
                 return true;
               }
