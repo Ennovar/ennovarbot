@@ -153,7 +153,7 @@ function printCategory(category) {
 // Output:
 // - string: String of the form 'a, b, c'
 function printGuesses(guesses) {
-   var string = ' ';
+   var string = ` `;
    for (var i = 0; i < guesses.length; i += 1) {
      string += guesses[i];
      // Every letter but the last gets a ,
