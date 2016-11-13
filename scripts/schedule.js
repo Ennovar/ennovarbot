@@ -20,7 +20,7 @@ const lessThanWeek = 604800000; // time difference between todays date to a week
 // reply with week schedule for NBA
 
 module.exports = function(robot) {
-	robot.respond(/this week schedule/i, function(msg) {
+	robot.respond(/this weeks schedule/i, function(msg) {
     var urlDate = new Date();
     urlYear = urlDate.getFullYear();
     robot.http("http://api.sportradar.us/nfl-ot1/games/"+urlYear+"/REG/schedule.json?api_key=y5u9zz6jrsa9jw4nqk6v25zn")
@@ -37,12 +37,18 @@ module.exports = function(robot) {
              }
            })
 
+           console.log(duh_body.weeks)
+           var schedule_str = "";
            thisWeek.forEach(function(week){
              week.games.forEach(function(item){
                var date = new Date(item.scheduled);
-               msg.send(item.home.name + " vs " + item.away.name + " at " + date.toISOString().substr(0,10) + " venue: " + item.venue.name + ", " + item.venue.city);
+               var new_schedule = "\n" + item.home.name + " vs " + item.away.name + " at " + date.toISOString().substr(0,10) + " venue: " + item.venue.name + ", " + item.venue.city
+               schedule_str = schedule_str + new_schedule
+
+               //msg.send(item.home.name + " vs " + item.away.name + " at " + date.toISOString().substr(0,10) + " venue: " + item.venue.name + ", " + item.venue.city);
              })
            });
+           msg.send(schedule_str)
          });
   });
 }
