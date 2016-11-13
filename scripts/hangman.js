@@ -20,11 +20,11 @@
 
 const words = require('../constants/words.js');
 var hangState = [
-  '       ____      \n' +
-  '      |    |     \n' +
-  '      |          \n' +
-  '      |          \n' +
-  '         |          \n' +
+  '           ____      \n' +
+  '          |       |     \n' +
+  '          |          \n' +
+  '          |          \n' +
+  '          |          \n' +
   ' _____|_____     \n',
   '       ____      \n' +
   '      |    |     \n' +
