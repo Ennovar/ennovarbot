@@ -18,13 +18,15 @@
    return new Promise((resolve) => setTimeout(resolve, time));
 }
 module.exports = function(robot) {
+  annoyIntervalId = null;
+
 	robot.respond(/bomb (.*)$/i, function(msg) {
     var user = msg.match[1];
     msg.send(user.slice(1));
     if (user.indexOf('@') !== -1) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
-          setTimeout(function() {
+          setInterval(function() {
             robot.messageRoom(user.slice(1), "booooomb ");
           }, 500 * i )
         })(i);
@@ -36,6 +38,28 @@ module.exports = function(robot) {
             msg.send("booooomb " + user);
           }, 500 * i )
         })(i);
+      }
+    }
+  });
+
+  robot.respond(/annoy (.*)$/i, function(msg) {
+    var user = msg.match[1];
+    if (user.indexOf('@') !== -1) {
+      for ( var i = 0; i < 10; i++) {
+        (function(i) {
+          annoyIntervalId = setInterval(function() {
+            robot.messageRoom(user.slice(1), "booooomb ");
+          }, 500 * i )
+        })(i);
+      }
+    }
+  });
+
+  robot.respond(/stop annoying (.*)$/i, function(msg) {
+    var user = msg.match[1];
+    if (user.indexOf('@') !== -1) {
+      clearInterval(annoyIntervalId) {
+        annoyIntervalId = null;
       }
     }
   });
