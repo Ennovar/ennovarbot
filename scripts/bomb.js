@@ -22,7 +22,7 @@ module.exports = function(robot) {
     var user = msg.match[1];
     if (user.indexOf('@') !== -1) {
       for ( var i = 0; i < 10; i++) {
-        function(i) {
+        (function(i) {
           setTimeout(function() {
             robot.messageRoom(user, "booooomb ");
           }, 500 * i )
@@ -30,7 +30,7 @@ module.exports = function(robot) {
       }
     } else {
       for ( var i = 0; i < 10; i++) {
-        function(i) {
+        (function(i) {
           setTimeout(function() {
             msg.send("booooomb " + user);
           }, 500 * i )
