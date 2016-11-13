@@ -163,6 +163,7 @@ module.exports = function(robot) {
 		else{
 			shuffle = false;
 		}
+
 var users = [];
 
 module.exports = function(robot) {
