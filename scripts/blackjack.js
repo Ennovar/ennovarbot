@@ -122,6 +122,7 @@ function prettyCard(card) {
 }
 function showHand(robot, msg) {
  	//msg.send("Your current hand: ");
+  msg.send(msg.message.user.name);
 	robot.messageRoom(msg.message.user.name, "Your current hand");
 	BJAPI.hand(msg.message.user.name.toLowerCase(), function(hand) {
       for (var i = 0; i < hand.length; i++) {
