@@ -43,20 +43,18 @@ module.exports = function(robot) {
   });
 
   robot.respond(/annoy (.*)$/i, function(msg) {
-    var user = msg.match[1]asdflkjasd;f;
+    var user = msg.match[1];
     if (user.indexOf('@') !== -1) {
       annoyIntervalId = setInterval(function() {
         robot.messageRoom(user.slice(1), "booooomb ");
-      }, 500);
+      }, 5000);
     }
   });
 
   robot.respond(/stop annoying (.*)$/i, function(msg) {
     var user = msg.match[1];
     if (user.indexOf('@') !== -1) {
-      clearInterval(function() {
-        annoyIntervalId = null;
-      });
+      clearInterval(annoyIntervalId);
     }
   });
 }
