@@ -20,7 +20,7 @@
 module.exports = function(robot) {
 	robot.respond(/bomb (\w+)$/i, function(msg) {
     var user = msg.match[1];
-    msg.send(msg.message.user.name);
+    msg.send(user.slice(1));
     if (user.indexOf('@') !== -1) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
