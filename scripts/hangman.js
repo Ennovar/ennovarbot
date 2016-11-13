@@ -203,10 +203,14 @@ function printSpaces(word, guesses) {
 // Output:
 // -: String of the entire state
 function printStatus() {
-  return printCategory(category) + '\n' +
-    printHangman() + '\n' +
-    printSpaces(word, guesses) + '\n' +
-    printGuesses(guesses);
+  if (inProgress) {
+    return printCategory(category) + '\n' +
+      printHangman() + '\n' +
+      printSpaces(word, guesses) + '\n' +
+      printGuesses(guesses);
+  } else {
+    return 'There is no game in progress';
+  }
 }
 
 function toTitleCase(str) {
@@ -307,7 +311,6 @@ module.exports = function(robot) {
     if (!inProgress) {
       msg.send('Please select a category then type hangman play <category>:\n');
       msg.send(prepareCategories(words));
-      inProgress = true;
     } else {
       msg.send('There is already a game in progress. Wait your turn');
     }
