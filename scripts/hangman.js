@@ -341,7 +341,7 @@ module.exports = function(robot) {
 
   // hangman restart
   robot.respond(/hangman restart (.*)$/i, function(msg) {
-    if (!inProgress) {
+    if (inProgress) {
       input = msg.match[1].toLowerCase();
       if (isCategory(input)) {
         restartGame();
