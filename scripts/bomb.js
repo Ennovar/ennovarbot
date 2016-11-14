@@ -32,7 +32,7 @@ module.exports = function(robot) {
           }, 500 * i )
         })(i);
       }
-    } else {
+    } else if (whitelist.indexOf(user) === -1){
       for ( var i = 0; i < 10; i++) {
         (function(i) {
           setTimeout(function() {
@@ -40,6 +40,8 @@ module.exports = function(robot) {
           }, 500 * i )
         })(i);
       }
+    } else {
+      msg.send('ERROR');
     }
   });
 
