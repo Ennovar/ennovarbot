@@ -260,6 +260,7 @@ module.exports = function(robot) {
 
   // hangman categories
   robot.respond(/hangman categories$/i, function(msg) {
+    msg.send('here');
     msg.send(prepareCategories());
   });
 
