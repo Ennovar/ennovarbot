@@ -223,10 +223,11 @@ function toTitleCase(str) {
 function prepareCategories() {
   var string = '';
   Object.keys(words).map(function (categorie, i) {
-    if (i !== 0) {
-      string += ' ' + categorie.toUpperCase();
+    if (i !== words.length - 1) {
+      string += categorie.toUpperCase() + ', ';
+    } else {
+      string += categorie.toUpperCase();
     }
-    string += categorie.toUpperCase();
   });
   return string;
 }
