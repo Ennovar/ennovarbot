@@ -234,7 +234,7 @@ function prepareCategories() {
 
 function randomWord() {
   const index = Math.floor((Math.random() * words[category].length - 1) + 1);
-  return words[category][index];
+  return words[category][index].toLowerCase();
 }
 
 function restartGame() {
