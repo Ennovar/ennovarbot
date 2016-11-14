@@ -220,8 +220,8 @@ function toTitleCase(str) {
   });
 }
 
-function prepareCategories(categories) {
-  return Object.keys(categories).map(function (categorie, i) {
+function prepareCategories(words) {
+  return Object.keys(words).map(function (categorie, i) {
     if (i !== 0) {
       return ' ' + categorie.toUpperCase();
     }
@@ -260,7 +260,7 @@ module.exports = function(robot) {
 
   // hangman categories
   robot.respond(/hangman categories$/i, function(msg) {
-    msg.send(prepareCategories(words));
+    msg.send(prepareCategories());
   });
 
   // hangman category
