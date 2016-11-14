@@ -221,6 +221,7 @@ function toTitleCase(str) {
 }
 
 function prepareCategories() {
+  return words.colors;
   return Object.keys(words);
   // Object.keys(words).map(function (categorie, i) {
   //   if (i !== 0) {
@@ -261,7 +262,6 @@ module.exports = function(robot) {
 
   // hangman categories
   robot.respond(/hangman categories$/i, function(msg) {
-    msg.send('here');
     msg.send(prepareCategories());
   });
 
