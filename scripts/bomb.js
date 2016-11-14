@@ -23,7 +23,6 @@ module.exports = function(robot) {
 
 	robot.respond(/bomb (.*)$/i, function(msg) {
     var user = msg.match[1];
-    msg.send(user.slice(1));
     if (user.indexOf('@') !== -1 && whitelist.indexOf(user) === -1) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
