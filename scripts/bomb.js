@@ -24,7 +24,7 @@ module.exports = function(robot) {
 	robot.respond(/bomb (.*)$/i, function(msg) {
     var user = msg.match[1];
     msg.send(user.slice(1));
-    if (user.indexOf('@') !== -1 && whitelist.indexOf(user) !== -1) {
+    if (user.indexOf('@') !== -1 && whitelist.indexOf(user) === -1) {
       for ( var i = 0; i < 10; i++) {
         (function(i) {
           setTimeout(function() {
@@ -45,7 +45,7 @@ module.exports = function(robot) {
 
   robot.respond(/annoy (.*)$/i, function(msg) {
     var user = msg.match[1];
-    if (user.indexOf('@') !== -1 && whitelist.indexOf(user) !== -1) {
+    if (user.indexOf('@') !== -1 && whitelist.indexOf(user) === -1) {
       annoyIntervalId = setInterval(function() {
         robot.messageRoom(user.slice(1), "booooomb ");
       }, 5000);
