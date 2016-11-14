@@ -220,7 +220,7 @@ function toTitleCase(str) {
   });
 }
 
-function prepareCategories(words) {
+function prepareCategories() {
   return Object.keys(words).map(function (categorie, i) {
     if (i !== 0) {
       return ' ' + categorie.toUpperCase();
