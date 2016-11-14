@@ -221,6 +221,7 @@ function toTitleCase(str) {
 }
 
 function prepareCategories() {
+  console.log(words.colors);
   return words.colors;
   return Object.keys(words);
   // Object.keys(words).map(function (categorie, i) {
