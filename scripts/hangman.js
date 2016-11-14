@@ -221,12 +221,13 @@ function toTitleCase(str) {
 }
 
 function prepareCategories() {
-  return Object.keys(words).map(function (categorie, i) {
-    if (i !== 0) {
-      return ' ' + categorie.toUpperCase();
-    }
-    return categorie.toUpperCase();
-  });
+  return Object.keys(words);
+  // Object.keys(words).map(function (categorie, i) {
+  //   if (i !== 0) {
+  //     return ' ' + categorie.toUpperCase();
+  //   }
+  //   return categorie.toUpperCase();
+  // });
 }
 
 function randomWord() {
