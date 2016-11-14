@@ -223,9 +223,9 @@ function toTitleCase(str) {
 function prepareCategories(categories) {
   return Object.keys(categories).map(function (category, i) {
     if (i !== 0) {
-      return ' ' + toTitleCase(category);
+      return ' ' + category.toUpperCase();
     }
-    return toTitleCase(category);
+    return category.toUpperCase();
   });
 }
 
