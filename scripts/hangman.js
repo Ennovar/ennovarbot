@@ -18,7 +18,7 @@
 //   NOTE: everyone please add your gitlab usernames here
 //
 
-const words = require('../constants/words.js');
+var words = require('../constants/words.js');
 var hangState = [
   '           _____      \n' +
   '          |         |     \n' +
@@ -81,7 +81,7 @@ function didMiss(guess) {
 
 function endGame() {
   if (misses === 6) {
-    message = 'You lose :sob:' + '\n' + word;
+    message = 'You lose :sob:' + '\n' + 'The word was: ' + word;
   } else if (didComplete()) {
     message =  'You win :sunglasses:!!!';
   }
@@ -265,7 +265,11 @@ module.exports = function(robot) {
 
   // hangman category
   robot.respond(/hangman category$/i, function(msg) {
-    msg.send(category.toUpperCase());
+    if (inProgress) {
+      msg.send(category.toUpperCase());
+    } else {
+      msg.send('You have to pick a category first loser');
+    }
   });
 
   // hangman info
