@@ -51,7 +51,7 @@ module.exports = function(robot) {
       // this function should return true if the bot should respond
       // return false meanse response function wont get called
       function(msg) {
-		if(msg != undefined) {
+		if(msg.message !== undefined) {
         var message = msg.message.text.toLowerCase();
 
           for (var key in phrases)
@@ -64,9 +64,7 @@ module.exports = function(robot) {
 		}
     },
     function(msg) {
-	if(msg != undefined) {
       msg.send(selectedPhrase);
-	}
     }
     );
 }
