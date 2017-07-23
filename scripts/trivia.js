@@ -33,14 +33,15 @@ function nextChar(c) {
 function printQuestion(question, answers, msg, correctAnswerText) {
   msg.send(question);
   var letter = 'A';
-  msg.send(answers.map(function(answer) {
-    if (correctAnswerText && answer === correctAnswerText) {
+  var str = '';
+  for (let i = 0; i < answers.length; i++) {
+    if (correctAnswerText && answers[i] === correctAnswerText) {
       correctAnswer = letter;
     }
-    const option = letter + ') ' + answer + '\n';
+    str += letter + ') ' + answers[i] + '\n';
     letter = nextChar(letter);
-    return option;
-  }));
+  }
+  msg.send(str);
 }
 
 function getQuestion(msg) {
@@ -94,9 +95,11 @@ function printCategories(msg) {
     .then(function(response) {
     if ('trivia_categories' in response.data) {
       const trivia_categories = response.data.trivia_categories;
-      msg.send(trivia_categories.map(function(category) {
-        return ' ' + category.id + ': ' + category.name + '\n';
-      }));
+      var str = 'Any\n';
+      for (let i = 0; i < trivia_categories.length; i++) {
+        str += trivia_categories[i].id + ': ' + trivia_categories[i].name + '\n';
+      }
+      msg.send(str);
     }
   });
 }
