@@ -220,7 +220,11 @@ module.exports = function(robot) {
   });
 
   robot.respond(/trivia get-difficulties$/i, function(msg) {
-    msg.send(difficulties);
+    var str = '';
+    for (let i = 0; i < difficulties.length; i++) {
+      str += difficulties[i] + '\n';
+    }
+    msg.send(str);
   });
 
   robot.respond(/trivia get-current-difficulty$/i, function(msg) {
