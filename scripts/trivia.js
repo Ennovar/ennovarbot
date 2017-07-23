@@ -143,9 +143,7 @@ module.exports = function(robot) {
   });
 
   robot.respond(/trivia get-new-question$/i, function(msg) {
-    if (correctAnswer !== '') {
-      correctAnswer = '';
-      answered = false;
+    if (correctAnswer === '') {
       getQuestion(msg);
     } else {
       msg.send('Please answer the current question or use trivia skip-current-question');
