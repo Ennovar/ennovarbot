@@ -5,6 +5,7 @@
   "author": "Ennovar <ennovarhubot@gmail.com>",
   "description": "Ennovar's personal Slack bot",
   "dependencies": {
+    "axios": "^0.16.2",
     "bluebird": "^3.4.1",
     "dbus-native": "^0.2.0",
     "hubot": "^2.18.0",
