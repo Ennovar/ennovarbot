@@ -221,17 +221,20 @@ function toTitleCase(str) {
 }
 
 function prepareCategories() {
-  return Object.keys(words).map(function (categorie, i) {
-    if (i !== 0) {
-      return ' ' + categorie.toUpperCase();
+  var string = '';
+  Object.keys(words).map(function (categorie, i) {
+    if (i !== words.length - 1) {
+      string += categorie.toUpperCase() + ', ';
+    } else {
+      string += categorie.toUpperCase();
     }
-    return categorie.toUpperCase();
   });
+  return string;
 }
 
 function randomWord() {
   const index = Math.floor((Math.random() * words[category].length - 1) + 1);
-  return words[category][index];
+  return words[category][index].toLowerCase();
 }
 
 function restartGame() {
